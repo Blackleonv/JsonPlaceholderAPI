@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using JsonPlaceholderAPI.Models;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Text.Json;
+using JsonPlaceholderAPI.Models;
 
-namespace JsonPlaceholderAPI.Controllers
+namespace UserApiExample.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly HttpClient _httpClient;
@@ -18,19 +17,28 @@ namespace JsonPlaceholderAPI.Controllers
             _httpClient = httpClient;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<User>> Get()
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(int id)
         {
-            var response = await _httpClient.GetAsync("https://jsonplaceholder.typicode.com/users");
-            response.EnsureSuccessStatusCode();
-
-            var json = await response.Content.ReadAsStringAsync();
-            var users = JsonSerializer.Deserialize<List<User>>(json, new JsonSerializerOptions
+            try
             {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+                var response = await _httpClient.GetAsync($"https://jsonplaceholder.typicode.com/users/{id}");
+                response.EnsureSuccessStatusCode();
 
-            return users;
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var user = JsonSerializer.Deserialize<User>(jsonString);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(user);
+            }
+            catch (HttpRequestException e)
+            {
+                return StatusCode(500, $"Internal server error: {e.Message}");
+            }
         }
     }
 }

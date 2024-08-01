@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AspNetCoreRateLimit;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,14 +16,21 @@ namespace JsonPlaceholderAPI
 
         public IConfiguration Configuration { get; }
 
-        // Bu yöntem, çalışma zamanı tarafından çağrılır. Servisleri kapsayıcıya eklemek için bu yöntemi kullanın.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(); // MVC kontrolcülerini ekliyoruz
-            services.AddHttpClient();  // HttpClient servisini ekliyoruz
+            services.AddControllers();
+
+            // Diğer servis kayıtları
+            //services.AddSingleton<IProcessingStrategy, MemoryCacheProcessingStrategy>();
+
+            // Oran sınırlandırma hizmetlerini ekleyin
+            services.AddMemoryCache();
+            services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
+            services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
+            services.AddInMemoryRateLimiting();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
         }
 
-        // Bu yöntem, çalışma zamanı tarafından çağrılır. HTTP istek boru hattını yapılandırmak için bu yöntemi kullanın.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -37,8 +45,10 @@ namespace JsonPlaceholderAPI
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
+
+            // Oran sınırlandırma middleware'ini ekleyin
+            app.UseIpRateLimiting();
 
             app.UseAuthorization();
 
@@ -51,3 +61,4 @@ namespace JsonPlaceholderAPI
         }
     }
 }
+
