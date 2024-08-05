@@ -1,21 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using static MyService;
 
-[ApiController]
-[Route("api/[controller]")]
-public class MyController : ControllerBase
+namespace JsonPlaceholderAPI.Controllers
 {
-    private readonly MyService _myService;
-
-    public MyController(MyService myService)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class UserController : ControllerBase
     {
-        _myService = myService;
-    }
+        private readonly MyServiceRedis _myService;
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetUser(int id)
-    {
-        var user = await _myService.GetUserByIdAsync(id);
-        return Ok(user);
+        public UserController(MyServiceRedis myService)
+        {
+            _myService = myService;
+        }
+
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserById(int userId)
+        {
+            var user = await _myService.GetUserByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+        }
     }
 }

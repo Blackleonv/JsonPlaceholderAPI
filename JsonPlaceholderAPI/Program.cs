@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
+using static MyService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +53,9 @@ app.UseIpRateLimiting();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+
+// MyServiceRedis sýnýfýný kayýt etmek 
+builder.Services.AddSingleton<MyServiceRedis>();
 
 
 // Diðer servisleri ekleyin
