@@ -2,6 +2,7 @@ using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>()
 builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
 builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
 builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+
 
 // HttpClient ve MyService'i kaydet
 builder.Services.AddHttpClient();
@@ -47,6 +49,24 @@ app.UseRouting();
 // Hýz Sýnýrlamayý Etkinleþtir
 app.UseIpRateLimiting();
 
+app.UseAuthorization();
+app.MapControllers();
+app.Run();
+
+
+// Diðer servisleri ekleyin
+builder.Services.AddControllers();
+
+// Redis cache'i ekleyin
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost:6379"; // Redis sunucusunun adresi ve portu
+    options.InstanceName = "SampleInstance"; // Opsiyonel, Redis instance adý
+});
+
+
+// Middleware ve endpoint yapýlandýrmalarý
+app.UseRouting();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

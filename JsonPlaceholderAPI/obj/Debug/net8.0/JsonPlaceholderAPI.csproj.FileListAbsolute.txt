@@ -30,3 +30,17 @@ C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\obj\Debug\net8
 C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\obj\Debug\net8.0\JsonPlaceholderAPI.pdb
 C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\obj\Debug\net8.0\JsonPlaceholderAPI.genruntimeconfig.cache
 C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\obj\Debug\net8.0\ref\JsonPlaceholderAPI.dll
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\MyRateLimitedApp\appsettings.Development.json
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\MyRateLimitedApp\appsettings.json
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\MyRateLimitedApp\obj\MyRateLimitedApp.csproj.nuget.dgspec.json
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\MyRateLimitedApp\obj\project.assets.json
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\MyRateLimitedApp\Properties\launchSettings.json
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\AspNetCoreRateLimit.dll
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\AspNetCoreRateLimit.Redis.dll
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\Pipelines.Sockets.Unofficial.dll
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\StackExchange.Redis.dll
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\Microsoft.Extensions.Options.dll

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\POLAT\\source\\repos\\JsonPlaceholderAPI\\JsonPlaceholderAPI\\JsonPlaceholderAPI.csproj": {}
+    "C:\\Users\\POLAT\\source\\repos\\JsonPlaceholderAPI\\JsonPlaceholderAPI\\MyRateLimitedApp\\MyRateLimitedApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\POLAT\\source\\repos\\JsonPlaceholderAPI\\JsonPlaceholderAPI\\JsonPlaceholderAPI.csproj": {
+    "C:\\Users\\POLAT\\source\\repos\\JsonPlaceholderAPI\\JsonPlaceholderAPI\\MyRateLimitedApp\\MyRateLimitedApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\POLAT\\source\\repos\\JsonPlaceholderAPI\\JsonPlaceholderAPI\\JsonPlaceholderAPI.csproj",
-        "projectName": "JsonPlaceholderAPI",
-        "projectPath": "C:\\Users\\POLAT\\source\\repos\\JsonPlaceholderAPI\\JsonPlaceholderAPI\\JsonPlaceholderAPI.csproj",
+        "projectUniqueName": "C:\\Users\\POLAT\\source\\repos\\JsonPlaceholderAPI\\JsonPlaceholderAPI\\MyRateLimitedApp\\MyRateLimitedApp.csproj",
+        "projectName": "MyRateLimitedApp",
+        "projectPath": "C:\\Users\\POLAT\\source\\repos\\JsonPlaceholderAPI\\JsonPlaceholderAPI\\MyRateLimitedApp\\MyRateLimitedApp.csproj",
         "packagesPath": "C:\\Users\\POLAT\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\POLAT\\source\\repos\\JsonPlaceholderAPI\\JsonPlaceholderAPI\\obj\\",
+        "outputPath": "C:\\Users\\POLAT\\source\\repos\\JsonPlaceholderAPI\\JsonPlaceholderAPI\\MyRateLimitedApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\POLAT\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -43,18 +43,6 @@
             "AspNetCoreRateLimit": {
               "target": "Package",
               "version": "[5.0.0, )"
-            },
-            "AspNetCoreRateLimit.Redis": {
-              "target": "Package",
-              "version": "[2.0.0, )"
-            },
-            "Microsoft.Extensions.Caching.StackExchangeRedis": {
-              "target": "Package",
-              "version": "[8.0.7, )"
-            },
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[6.4.0, )"
             }
           },
           "imports": [
