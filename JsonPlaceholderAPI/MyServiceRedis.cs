@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using JsonPlaceholderAPI.Models;
 
-namespace JsonPlaceholderAPI
+namespace JsonPlaceholderAPI.Services
 {
     public class MyServiceRedis
     {
