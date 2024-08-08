@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Text.Json;
+﻿using FluentValidation;
+using FluentValidation.Results;
 using JsonPlaceholderAPI.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace UserApiExample.Controllers
 {
@@ -13,11 +13,13 @@ namespace UserApiExample.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly AppDbContext _context;
+        private readonly IValidator<User> _validator;
 
-        public UserController(HttpClient httpClient, AppDbContext context)
+        public UserController(HttpClient httpClient, AppDbContext context, IValidator<User> validator)
         {
             _httpClient = httpClient;
             _context = context;
+            _validator = validator;
         }
 
         [HttpGet("{id}")]
@@ -50,6 +52,22 @@ namespace UserApiExample.Controllers
             if (user == null)
             {
                 return BadRequest("User object is null");
+            }
+
+            // Kullanıcı doğrulamasını yap
+            ValidationResult validationResult = await _validator.ValidateAsync(user);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
+            // Email kontrolü: Aynı email ile başka bir kullanıcı olup olmadığını kontrol et
+            var existingUser = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == user.Email);
+
+            if (existingUser != null)
+            {
+                return BadRequest("Email is already in use.");
             }
 
             // Kullanıcıyı veritabanına ekle

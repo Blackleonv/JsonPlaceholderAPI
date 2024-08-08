@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using static MyService;
 
 namespace JsonPlaceholderAPI.Controllers

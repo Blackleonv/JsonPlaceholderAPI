@@ -1,9 +1,9 @@
 using AspNetCoreRateLimit;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
-using Microsoft.Extensions.Hosting;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using JsonPlaceholderAPI.Models;
-using JsonPlaceholderAPI.Services; 
+using JsonPlaceholderAPI.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,8 +25,6 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.InstanceName = "SampleInstance";
 });
 
-builder.Services.AddControllers();
-
 // Hýz Sýnýrlamayý Yapýlandýrma
 builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("AspNetCoreRateLimit"));
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
@@ -41,6 +39,13 @@ builder.Services.AddSingleton<MyServiceRedis>();
 
 // Yetkilendirme hizmetlerini ekle
 builder.Services.AddAuthorization();
+
+// FluentValidation'ý ekleyin
+builder.Services.AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters();
+
+// Validatörleri ekleyin
+builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
 
 var app = builder.Build();
 
@@ -57,13 +62,14 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseRouting();
-
 // Hýz Sýnýrlamayý Etkinleþtir
 app.UseIpRateLimiting();
 
+app.UseHttpsRedirection();
+app.UseRouting();
+
 // Yetkilendirme middleware'ini ekle
 app.UseAuthorization();
+
 app.MapControllers();
 app.Run();
