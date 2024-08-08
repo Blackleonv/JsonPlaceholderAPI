@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Hosting;
 using JsonPlaceholderAPI.Models;
-using JsonPlaceholderAPI.Services; // MyServiceRedis sýnýfýnýn bulunduðu ad alanýný ekleyin
+using JsonPlaceholderAPI.Services; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,6 +65,5 @@ app.UseIpRateLimiting();
 
 // Yetkilendirme middleware'ini ekle
 app.UseAuthorization();
-
 app.MapControllers();
 app.Run();
