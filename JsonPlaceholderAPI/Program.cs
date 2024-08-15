@@ -6,6 +6,8 @@ using JsonPlaceholderAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
+
 
 // Veritabaný baðlantýsýný yapýlandýrma
 builder.Services.AddDbContext<AppDbContext>(options =>
