@@ -31,20 +31,31 @@ namespace UserApiExample.Controllers
                 response.EnsureSuccessStatusCode();
 
                 var jsonString = await response.Content.ReadAsStringAsync();
-                var user = JsonSerializer.Deserialize<User>(jsonString);
 
-                if (user == null)
+                // JSON deserialization içinde hata oluşursa yakalamak için try-catch ekleyin
+                try
                 {
-                    return NotFound();
-                }
+                    var user = JsonSerializer.Deserialize<User>(jsonString);
 
-                return Ok(user);
+                    if (user == null)
+                    {
+                        return NotFound();
+                    }
+
+                    return Ok(user);
+                }
+                catch (JsonException ex)
+                {
+                    return StatusCode(500, $"Deserialization error: {ex.Message}");
+                }
             }
             catch (HttpRequestException e)
             {
                 return StatusCode(500, $"Internal server error: {e.Message}");
             }
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] User user)
