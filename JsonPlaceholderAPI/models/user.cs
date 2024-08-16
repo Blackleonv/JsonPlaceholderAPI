@@ -1,58 +1,24 @@
-﻿namespace JsonPlaceholderAPI.Models
+﻿using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+
+public class User
 {
-    /*
-    public class Users
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Username { get; set; }
-        public string Email { get; set; }
-        // Diğer gerekli alanlar...
-    }
-    */
-    namespace UserApiExample.Models
-    {
-        public class User
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public string Username { get; set; }
-            public string Email { get; set; }
-
-        }
-    }
-
-    public class User
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public Address Address { get; set; }
-        public string Phone { get; set; }
-        public string Website { get; set; }
-        public Company Company { get; set; }
-    }
-
-    public class Address
-    {
-        public string Street { get; set; }
-        public string Suite { get; set; }
-        public string City { get; set; }
-        public string Zipcode { get; set; }
-        public Geo Geo { get; set; }
-    }
-
-    public class Geo
-    {
-        public string Lat { get; set; }
-        public string Lng { get; set; }
-    }
-
-    public class Company
-    {
-        public string Name { get; set; }
-        public string CatchPhrase { get; set; }
-        public string Bs { get; set; }
-    }
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;  // Varsayılan değer atandı
+    public string Username { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public Address Address { get; set; } = new Address();  // Varsayılan olarak boş bir Address nesnesi atandı
+    public string Phone { get; set; } = string.Empty;  // Varsayılan değer atandı
+    public string Website { get; set; } = string.Empty;
 }
+
+public class Address
+{
+    public int Id { get; set; }  // Birincil Anahtar
+    public string Street { get; set; } = string.Empty;
+    public string Suite { get; set; } = string.Empty;
+    public string City { get; set; } = string.Empty;
+    public string Zipcode { get; set; } = string.Empty;
+}
+
+

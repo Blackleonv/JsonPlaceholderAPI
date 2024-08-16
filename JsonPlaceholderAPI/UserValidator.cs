@@ -12,17 +12,17 @@ public class UserValidator : AbstractValidator<User>
 
         RuleFor(user => user.Username)
             .NotEmpty().WithMessage("Username is required.")
-            .MinimumLength(6).WithMessage("Username must be at least 6 characters long.");
+            .MinimumLength(6).WithMessage("Username must be at least 6 characters long.");  
 
         RuleFor(user => user.Email)
             .NotEmpty().WithMessage("Email is required.")
             .EmailAddress().WithMessage("Invalid email format.")
-            .MustAsync(BeUniqueEmail).WithMessage("Email is already in use.");
+            .Must(BeUniqueEmail).WithMessage("Email is already in use.");
     }
 
-    private async Task<bool> BeUniqueEmail(string email, CancellationToken cancellationToken)
+    private bool BeUniqueEmail(string email)
     {
-        return await _context.Users
-            .AllAsync(u => u.Email != email, cancellationToken);
+        // Senkron olarak kullanıcıların e-posta adreslerini kontrol eder
+        return !_context.Users.Any(u => u.Email == email);
     }
 }

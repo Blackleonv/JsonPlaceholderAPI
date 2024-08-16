@@ -4,14 +4,17 @@ using FluentValidation.AspNetCore;
 using JsonPlaceholderAPI.Models;
 using JsonPlaceholderAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
-
 // Veritabaný baðlantýsýný yapýlandýrma
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
 
 // Swagger/OpenAPI'yi yapýlandýrma
 builder.Services.AddEndpointsApiExplorer();
@@ -63,6 +66,7 @@ else
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
 
 // Hýz Sýnýrlamayý Etkinleþtir
 app.UseIpRateLimiting();

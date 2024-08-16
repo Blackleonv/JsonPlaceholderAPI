@@ -1,5 +1,4 @@
 ﻿using AspNetCoreRateLimit;
-
 namespace JsonPlaceholderAPI
 {
     public class Startup

@@ -8,7 +8,7 @@ using System.Text.Json;
 namespace UserApiExample.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/userapi/users")]
     public class UserController : ControllerBase
     {
         private readonly HttpClient _httpClient;

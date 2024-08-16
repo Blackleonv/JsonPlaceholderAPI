@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "4EJx+Wxe2j7Li7fsTPmCRYE3mefq9dbKYXxm5pYzStb5YligW/hqHtXtt2VJRQgmd0zf3iSPxLyGCRtEhl188g==",
+  "dgSpecHash": "8mAWuk1qitryWX5Epe0Z4K6o+Iype+mQXvpdgy/k9yRmWczcfJECKr665HPu3YkfssKF+7rlkELeKEBGA7I9Eg==",
   "success": true,
   "projectFilePath": "C:\\Users\\POLAT\\source\\repos\\JsonPlaceholderAPI\\JsonPlaceholderAPI\\JsonPlaceholderAPI.csproj",
   "expectedPackageFiles": [
@@ -116,6 +116,7 @@
     "C:\\Users\\POLAT\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\microsoft.openapi\\1.6.14\\microsoft.openapi.1.6.14.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
+    "C:\\Users\\POLAT\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.19.5\\microsoft.visualstudio.azure.containers.tools.targets.1.19.5.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\microsoft.win32.primitives\\4.3.0\\microsoft.win32.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",

@@ -4,7 +4,7 @@ using static MyService;
 namespace JsonPlaceholderAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/jsonplaceholder/users")]
     public class UserController : ControllerBase
     {
         private readonly MyServiceRedis _myService;

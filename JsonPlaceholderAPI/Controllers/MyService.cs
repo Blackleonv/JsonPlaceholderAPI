@@ -1,8 +1,9 @@
-﻿using JsonPlaceholderAPI.Models;
+﻿using JsonPlaceholderAPI.Models; // User sınıfının tanımlı olduğu ad alanı
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using System.Net.Http;
 using System.Text.Json;
-
+using System.Threading.Tasks;
 
 public class MyService
 {
@@ -15,69 +16,69 @@ public class MyService
         _httpClient = httpClient;
     }
 
-    public async Task<User> GetUserByIdAsync(int userId)
+    public async Task<User?> GetUserByIdAsync(int userId)
     {
-        // Cache key'ini oluşturma
         string cacheKey = $"User_{userId}";
 
-        // Cache'de var mı kontrol et
-        if (_cache.TryGetValue(cacheKey, out User cachedUser))
+        if (_cache.TryGetValue(cacheKey, out User? cachedUser))
         {
             return cachedUser;
         }
 
-        // Cache'de yoksa API'den veri al
         var response = await _httpClient.GetAsync($"https://jsonplaceholder.typicode.com/users/{userId}");
         response.EnsureSuccessStatusCode();
 
         var jsonString = await response.Content.ReadAsStringAsync();
-        var user = JsonSerializer.Deserialize<User>(jsonString);
+        var user = JsonSerializer.Deserialize<User?>(jsonString);
 
-        // Cache'e ekle ve 1 dakika boyunca sakla
-        _cache.Set(cacheKey, user, TimeSpan.FromMinutes(1));
+        if (user != null)
+        {
+            _cache.Set(cacheKey, user, TimeSpan.FromMinutes(1));
+        }
 
         return user;
     }
+}
 
+public class MyServiceRedis
+{
+    private readonly IDistributedCache _cache;
+    private readonly HttpClient _httpClient;
 
-    public class MyServiceRedis
+    public MyServiceRedis(IDistributedCache cache, HttpClient httpClient)
     {
-        private readonly IDistributedCache _cache;
-        private readonly HttpClient _httpClient;
+        _cache = cache;
+        _httpClient = httpClient;
+    }
 
-        public MyServiceRedis(IDistributedCache cache, HttpClient httpClient)
+    public async Task<User?> GetUserByIdAsync(int userId)
+    {
+        string cacheKey = $"User_{userId}";
+
+        var cachedUser = await _cache.GetStringAsync(cacheKey);
+        if (!string.IsNullOrEmpty(cachedUser))
         {
-            _cache = cache;
-            _httpClient = httpClient;
+            var user = JsonSerializer.Deserialize<User?>(cachedUser);
+            if (user != null)
+            {
+                return user;
+            }
         }
 
-        public async Task<User> GetUserByIdAsync(int userId)
+        var response = await _httpClient.GetAsync($"https://jsonplaceholder.typicode.com/users/{userId}");
+        response.EnsureSuccessStatusCode();
+
+        var jsonString = await response.Content.ReadAsStringAsync();
+        var userFromApi = JsonSerializer.Deserialize<User?>(jsonString);
+
+        if (userFromApi != null)
         {
-            string cacheKey = $"User_{userId}";
-
-            // Cache'de var mı kontrol et
-            var cachedUser = await _cache.GetStringAsync(cacheKey);
-            if (!string.IsNullOrEmpty(cachedUser))
-            {
-                return JsonSerializer.Deserialize<User>(cachedUser);
-            }
-
-            // Cache'de yoksa API'den veri al
-            var response = await _httpClient.GetAsync($"https://jsonplaceholder.typicode.com/users/{userId}");
-            response.EnsureSuccessStatusCode();
-
-            var jsonString = await response.Content.ReadAsStringAsync();
-            var user = JsonSerializer.Deserialize<User>(jsonString);
-
-            // Cache'e ekle ve 1 dakika boyunca sakla
             var cacheOptions = new DistributedCacheEntryOptions()
                 .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
 
-            await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(user), cacheOptions);
-
-            return user;
+            await _cache.SetStringAsync(cacheKey, JsonSerializer.Serialize(userFromApi), cacheOptions);
         }
+
+        return userFromApi;
     }
-
-
 }
