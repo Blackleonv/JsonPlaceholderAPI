@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using JsonPlaceholderAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;  // LINQ işlemleri için bu ad alanını eklemeniz gerekebilir
 
 public class UserValidator : AbstractValidator<User>
 {
@@ -12,7 +13,7 @@ public class UserValidator : AbstractValidator<User>
 
         RuleFor(user => user.Username)
             .NotEmpty().WithMessage("Username is required.")
-            .MinimumLength(6).WithMessage("Username must be at least 6 characters long.");  
+            .MinimumLength(6).WithMessage("Username must be at least 6 characters long.");
 
         RuleFor(user => user.Email)
             .NotEmpty().WithMessage("Email is required.")
@@ -22,7 +23,7 @@ public class UserValidator : AbstractValidator<User>
 
     private bool BeUniqueEmail(string email)
     {
-        // Senkron olarak kullanıcıların e-posta adreslerini kontrol eder
+        // Kullanıcıların e-posta adreslerini senkron olarak kontrol eder
         return !_context.Users.Any(u => u.Email == email);
     }
 }

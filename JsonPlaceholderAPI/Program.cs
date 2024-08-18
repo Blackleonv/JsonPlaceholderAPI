@@ -5,7 +5,8 @@ using JsonPlaceholderAPI.Models;
 using JsonPlaceholderAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();

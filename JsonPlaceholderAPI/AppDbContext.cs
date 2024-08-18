@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿//using Microsoft.AspNetCore.Mvc;
+
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace JsonPlaceholderAPI.Models
@@ -15,7 +17,7 @@ namespace JsonPlaceholderAPI.Models
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(
-                    "Server=localhost;Database=MyDatabase;User Id=sa;Password=YourStrongPassword;TrustServerCertificate=True;",
+                    "Server=localhost;Database=UserDatabase;User Id=sa;Password=YourStrongPassword;TrustServerCertificate=True;",
                     sqlServerOptions =>
                     {
                         sqlServerOptions.EnableRetryOnFailure(
@@ -26,7 +28,15 @@ namespace JsonPlaceholderAPI.Models
             }
         }
 
-        // DbSet<TEntity> tanımlamaları buraya gelecek
         public DbSet<User> Users { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Address)
+                .WithMany()
+                .HasForeignKey(u => u.AddressId);
+        }
     }
 }

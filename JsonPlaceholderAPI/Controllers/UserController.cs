@@ -3,7 +3,9 @@ using FluentValidation.Results;
 using JsonPlaceholderAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace UserApiExample.Controllers
 {
@@ -32,7 +34,6 @@ namespace UserApiExample.Controllers
 
                 var jsonString = await response.Content.ReadAsStringAsync();
 
-                // JSON deserialization içinde hata oluşursa yakalamak için try-catch ekleyin
                 try
                 {
                     var user = JsonSerializer.Deserialize<User>(jsonString);
@@ -54,9 +55,6 @@ namespace UserApiExample.Controllers
                 return StatusCode(500, $"Internal server error: {e.Message}");
             }
         }
-
-
-
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] User user)
         {
@@ -81,11 +79,24 @@ namespace UserApiExample.Controllers
                 return BadRequest("Email is already in use.");
             }
 
-            // Kullanıcıyı veritabanına ekle
-            await _context.Users.AddAsync(user);
+            // Eğer kullanıcı bir adres içeriyorsa, adresi veritabanına ekleyin
+            if (user.Address != null)
+            {
+                _context.Add(user.Address);  // Adres ekleniyor
+            }
+
+            // Kullanıcıyı veritabanına ekleyin
+            _context.Users.Add(user);  // Kullanıcı ekleniyor
+
+            // Değişiklikleri kaydedin
             await _context.SaveChangesAsync();
 
+            // Başarıyla eklenen kullanıcıyı döndürün
             return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
         }
+
+
     }
+
 }
+
