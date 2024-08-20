@@ -55,6 +55,7 @@ namespace UserApiExample.Controllers
                 return StatusCode(500, $"Internal server error: {e.Message}");
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] User user)
         {
@@ -95,8 +96,59 @@ namespace UserApiExample.Controllers
             return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] User user)
+        {
+            if (user == null || user.Id != id)
+            {
+                return BadRequest("User object is null or Id does not match.");
+            }
 
+            // Kullanıcı doğrulamasını yap
+            ValidationResult validationResult = await _validator.ValidateAsync(user);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
+            var existingUser = await _context.Users.FindAsync(id);
+            if (existingUser == null)
+            {
+                return NotFound();
+            }
+
+            // Mevcut kullanıcı bilgilerini güncelle
+            existingUser.Name = user.Name;
+            existingUser.Username = user.Username;
+            existingUser.Email = user.Email;
+            existingUser.Phone = user.Phone;
+            existingUser.Website = user.Website;
+
+            // Adresi güncelle
+            if (user.Address != null)
+            {
+                _context.Entry(existingUser.Address).CurrentValues.SetValues(user.Address);
+            }
+
+            // Değişiklikleri kaydet
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
-
 }
-
