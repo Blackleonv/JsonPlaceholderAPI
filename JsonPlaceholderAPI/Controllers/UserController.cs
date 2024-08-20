@@ -24,8 +24,9 @@ namespace UserApiExample.Controllers
             _validator = validator;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(int id)
+        // Harici API'den kullanıcıyı getirir
+        [HttpGet("external/{id}")]
+        public async Task<IActionResult> GetUserFromExternalApi(int id)
         {
             try
             {
@@ -54,6 +55,20 @@ namespace UserApiExample.Controllers
             {
                 return StatusCode(500, $"Internal server error: {e.Message}");
             }
+        }
+
+        // Veritabanından kullanıcıyı getirir
+        [HttpGet("db/{id}")]
+        public async Task<IActionResult> GetUserFromDatabase(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
         }
 
         [HttpPost]
@@ -93,7 +108,7 @@ namespace UserApiExample.Controllers
             await _context.SaveChangesAsync();
 
             // Başarıyla eklenen kullanıcıyı döndürün
-            return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
+            return CreatedAtAction(nameof(GetUserFromDatabase), new { id = user.Id }, user);
         }
 
         [HttpPut("{id}")]

@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Controller'larý ekleyin
 builder.Services.AddControllers();
 
 // Veritabaný baðlantýsýný yapýlandýrma
@@ -20,20 +22,20 @@ builder.Services.AddDbContext<AppDbContext>(options =>
                 maxRetryCount: 5,
                 maxRetryDelay: TimeSpan.FromSeconds(10),
                 errorNumbersToAdd: null);
-        }));
+        })
+    .UseLazyLoadingProxies()  // Lazy loading'i etkinleþtir
+);
 
-
+// Kültür bilgisini yapýlandýrma
 var cultureInfo = CultureInfo.InvariantCulture;
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
-
-
-// Swagger/OpenAPI'yi yapýlandýrma
+// Swagger/OpenAPI yapýlandýrmasý
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Memory Cache hizmetini ekle
+// Memory Cache hizmetini ekleyin
 builder.Services.AddMemoryCache();
 
 // Redis cache'i ekleyin
@@ -43,19 +45,19 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.InstanceName = "SampleInstance";
 });
 
-// Hýz Sýnýrlamayý Yapýlandýrma
+// Hýz sýnýrlama yapýlandýrmasý
 builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("AspNetCoreRateLimit"));
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
 builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
 builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
 
-// HttpClient ve servisleri kaydet
+// HttpClient ve servisleri kaydedin
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<MyService>();
 builder.Services.AddSingleton<MyServiceRedis>();
 
-// Yetkilendirme hizmetlerini ekle
+// Yetkilendirme hizmetlerini ekleyin
 builder.Services.AddAuthorization();
 
 // FluentValidation'ý ekleyin
@@ -80,14 +82,13 @@ else
     app.UseHsts();
 }
 
-
-// Hýz Sýnýrlamayý Etkinleþtir
+// Hýz sýnýrlamayý etkinleþtirin
 app.UseIpRateLimiting();
 
 app.UseHttpsRedirection();
 app.UseRouting();
 
-// Yetkilendirme middleware'ini ekle
+// Yetkilendirme middleware'ini ekleyin
 app.UseAuthorization();
 
 app.MapControllers();

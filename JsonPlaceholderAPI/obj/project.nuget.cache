@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "8mAWuk1qitryWX5Epe0Z4K6o+Iype+mQXvpdgy/k9yRmWczcfJECKr665HPu3YkfssKF+7rlkELeKEBGA7I9Eg==",
+  "dgSpecHash": "5U8ojy8BE+CPALbD+25sFlFHn0MVHG1jZnAbdNk5DqXOyaCqNaEs+INa44P2LiJYvrTyFOZ1pY1+OLq/YqLLug==",
   "success": true,
   "projectFilePath": "C:\\Users\\POLAT\\source\\repos\\JsonPlaceholderAPI\\JsonPlaceholderAPI\\JsonPlaceholderAPI.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\POLAT\\.nuget\\packages\\aspnetcoreratelimit.redis\\2.0.0\\aspnetcoreratelimit.redis.2.0.0.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
+    "C:\\Users\\POLAT\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\fluentvalidation\\11.9.2\\fluentvalidation.11.9.2.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.1\\fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",
@@ -64,6 +65,7 @@
     "C:\\Users\\POLAT\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.7\\microsoft.entityframeworkcore.8.0.7.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.7\\microsoft.entityframeworkcore.abstractions.8.0.7.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\8.0.7\\microsoft.entityframeworkcore.analyzers.8.0.7.nupkg.sha512",
+    "C:\\Users\\POLAT\\.nuget\\packages\\microsoft.entityframeworkcore.proxies\\8.0.7\\microsoft.entityframeworkcore.proxies.8.0.7.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\8.0.7\\microsoft.entityframeworkcore.relational.8.0.7.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\8.0.7\\microsoft.entityframeworkcore.sqlserver.8.0.7.nupkg.sha512",
     "C:\\Users\\POLAT\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",

@@ -88,3 +88,5 @@ C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\obj\Debug\net8
 C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\obj\Debug\net8.0\JsonPlaceholderAPI.pdb
 C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\obj\Debug\net8.0\JsonPlaceholderAPI.genruntimeconfig.cache
 C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\obj\Debug\net8.0\ref\JsonPlaceholderAPI.dll
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\Castle.Core.dll
+C:\Users\POLAT\source\repos\JsonPlaceholderAPI\JsonPlaceholderAPI\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Proxies.dll

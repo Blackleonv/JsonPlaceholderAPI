@@ -1,6 +1,5 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using JsonPlaceholderAPI.Models;
 using System;
 
 namespace JsonPlaceholderAPI.Models
@@ -14,17 +13,21 @@ namespace JsonPlaceholderAPI.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            // Genellikle burada yapılandırma yapılmaz; appsettings.json ve Program.cs/Startup.cs kullanılır.
+            // Ancak, örnek olarak yapılandırma burada da gösterilmektedir.
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(
-                    "Server=localhost;Database=UserDatabase;User Id=sa;Password=YourStrongPassword;TrustServerCertificate=True;",
-                    sqlServerOptions =>
-                    {
-                        sqlServerOptions.EnableRetryOnFailure(
-                            maxRetryCount: 5,
-                            maxRetryDelay: TimeSpan.FromSeconds(10),
-                            errorNumbersToAdd: null);
-                    });
+                optionsBuilder
+                    .UseLazyLoadingProxies()  // Lazy loading'i etkinleştir
+                    .UseSqlServer(
+                        "Server=localhost;Database=UserDatabase;User Id=sa;Password=YourStrongPassword;TrustServerCertificate=True;",
+                        sqlServerOptions =>
+                        {
+                            sqlServerOptions.EnableRetryOnFailure(
+                                maxRetryCount: 5,
+                                maxRetryDelay: TimeSpan.FromSeconds(10),
+                                errorNumbersToAdd: null);
+                        });
             }
         }
 
