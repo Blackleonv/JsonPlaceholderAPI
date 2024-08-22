@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using JsonPlaceholderAPI.Models;
+using JsonPlaceholderAPI.Repositories;  // IRepository<User> için
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -14,14 +14,14 @@ namespace UserApiExample.Controllers
     public class UserController : ControllerBase
     {
         private readonly HttpClient _httpClient;
-        private readonly AppDbContext _context;
         private readonly IValidator<User> _validator;
+        private readonly IRepository<User> _userRepository;
 
-        public UserController(HttpClient httpClient, AppDbContext context, IValidator<User> validator)
+        public UserController(HttpClient httpClient, IValidator<User> validator, IRepository<User> userRepository)
         {
             _httpClient = httpClient;
-            _context = context;
             _validator = validator;
+            _userRepository = userRepository;
         }
 
         // Harici API'den kullanıcıyı getirir
@@ -61,7 +61,7 @@ namespace UserApiExample.Controllers
         [HttpGet("db/{id}")]
         public async Task<IActionResult> GetUserFromDatabase(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _userRepository.GetByIdAsync(id);
 
             if (user == null)
             {
@@ -71,6 +71,7 @@ namespace UserApiExample.Controllers
             return Ok(user);
         }
 
+        // Yeni kullanıcı oluşturur
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] User user)
         {
@@ -87,30 +88,20 @@ namespace UserApiExample.Controllers
             }
 
             // Email kontrolü: Aynı email ile başka bir kullanıcı olup olmadığını kontrol et
-            var existingUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == user.Email);
-
-            if (existingUser != null)
+            var existingUser = await _userRepository.GetAllAsync();
+            if (existingUser.Any(u => u.Email == user.Email))
             {
                 return BadRequest("Email is already in use.");
             }
 
-            // Eğer kullanıcı bir adres içeriyorsa, adresi veritabanına ekleyin
-            if (user.Address != null)
-            {
-                _context.Add(user.Address);  // Adres ekleniyor
-            }
-
-            // Kullanıcıyı veritabanına ekleyin
-            _context.Users.Add(user);  // Kullanıcı ekleniyor
-
-            // Değişiklikleri kaydedin
-            await _context.SaveChangesAsync();
+            // Kullanıcıyı ekle
+            await _userRepository.AddAsync(user);
 
             // Başarıyla eklenen kullanıcıyı döndürün
             return CreatedAtAction(nameof(GetUserFromDatabase), new { id = user.Id }, user);
         }
 
+        // Mevcut kullanıcıyı günceller
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] User user)
         {
@@ -126,7 +117,7 @@ namespace UserApiExample.Controllers
                 return BadRequest(validationResult.Errors);
             }
 
-            var existingUser = await _context.Users.FindAsync(id);
+            var existingUser = await _userRepository.GetByIdAsync(id);
             if (existingUser == null)
             {
                 return NotFound();
@@ -139,29 +130,23 @@ namespace UserApiExample.Controllers
             existingUser.Phone = user.Phone;
             existingUser.Website = user.Website;
 
-            // Adresi güncelle
-            if (user.Address != null)
-            {
-                _context.Entry(existingUser.Address).CurrentValues.SetValues(user.Address);
-            }
-
-            // Değişiklikleri kaydet
-            await _context.SaveChangesAsync();
+            // Güncellenmiş kullanıcıyı veritabanına kaydet
+            _userRepository.Update(existingUser);
 
             return NoContent();
         }
 
+        // Kullanıcıyı siler
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+            await _userRepository.DeleteAsync(id);
 
             return NoContent();
         }

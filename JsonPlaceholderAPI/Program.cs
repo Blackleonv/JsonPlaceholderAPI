@@ -2,6 +2,7 @@ using AspNetCoreRateLimit;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using JsonPlaceholderAPI.Models;
+using JsonPlaceholderAPI.Repositories;  // UserRepository ve IRepository için
 using JsonPlaceholderAPI.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -66,6 +67,9 @@ builder.Services.AddFluentValidationAutoValidation()
 
 // Validatörleri ekleyin
 builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
+
+// UserRepository'i ekleyin
+builder.Services.AddScoped<IRepository<User>, UserRepository>();
 
 var app = builder.Build();
 
